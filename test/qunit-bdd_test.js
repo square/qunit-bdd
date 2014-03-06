@@ -190,6 +190,32 @@ describe('expect', function() {
       expect(deepEqualStub.firstCall.args[3]).to.equal('99 luftballons');
     });
   });
+
+  describe('.configure', function() {
+    it('allows augmenting the default expect assertion', function() {
+      var assertion = expect();
+      expect(assertion.clown).not.to.be.defined();
+      expect.configure({ clown: function(){ this.equal('clown'); } });
+      expect(typeof assertion.clown).to.equal('function');
+      expect.configure({ clown: undefined });
+      expect(typeof assertion.clown).to.equal('undefined');
+    });
+
+    if (Object.defineProperty) {
+      it('allows augmenting with getters, e.g. for filler words', function() {
+        var assertion = expect();
+        expect(assertion.isisis).not.to.be.defined();
+        var config = {};
+        Object.defineProperty(config, 'isisis', {
+          enumerable: true,
+          get: function(){ return this; }
+        });
+        expect.configure(config);
+        expect(assertion.isisis).to.equal(assertion);
+        expect.configure({ isisis: undefined });
+      });
+    }
+  });
 });
 
 var valueFromGlobalBefore;

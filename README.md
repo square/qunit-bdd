@@ -129,7 +129,7 @@ that you can override parts of the built objects declaratively in nested
 contexts, something you might have used a bunch of helper functions to do with
 QUnit's default `module`/`test` functions.
 
-### QUnit
+### Configuration
 
 It's still QUnit, so you can write some tests using the `module`/`test` style,
 complete with the usual `ok`/`equal`/`deepEqual` assertions, if you find it
@@ -138,6 +138,7 @@ qunit-bdd to the global scope as you like:
 
 ```js
 // Turn off `lazy` and `context` exports.
+// Make sure to set this before loading qunit-bdd.js.
 QUNIT_BDD_OPTIONS = {
   GLOBAL: {
     lazy: false,
@@ -146,7 +147,19 @@ QUNIT_BDD_OPTIONS = {
 };
 ```
 
-Make sure to set this before loading qunit-bdd.js.
+#### Expectations / Assertions
+
+You can configure the built-in assertion `expect()` function to add your own
+custom assertions or override the built-in ones:
+
+```js
+expect.configure({
+  // expect(2).to.be.even();
+  even: function() {
+    QUnit.ok(this.actual % 2, 'expected ' + this.actual + ' to be even');
+  }
+});
+```
 
 ### Contributing
 
