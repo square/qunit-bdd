@@ -1,0 +1,319 @@
+/* jshint node:true, browser:true, undef:true */
+/* global describe, context, it, before, after, lazy, expect, fail, ok */
+/* global QUnit, sinon */
+
+describe('describe', function() {
+  var parentExecutionContext = this;
+
+  it('runs its child tests in a QUnit module', function() {
+    expect(3 + 4).to.equal(7);
+  });
+
+  describe('execution context', function() {
+    var executionContext = this;
+
+    it('has a description matching the description passed to describe/context', function() {
+      expect(executionContext.description).to.equal('execution context');
+    });
+
+    it('has a full description which contains all parent descriptions prepended', function() {
+      expect(executionContext.fullDescription()).to.equal('describe execution context');
+    });
+
+    it('has a reference to the parent execution context', function() {
+      expect(executionContext.parent).to.equal(parentExecutionContext);
+    });
+  });
+});
+
+describe('context', function() {
+  it('is an alias for #describe', function() {
+    expect(context).to.equal(describe);
+  });
+});
+
+describe('fail', function() {
+  it('delegates to QUnit.ok', function() {
+    var okStub = sinon.stub(QUnit, 'ok');
+    fail('oh no!');
+    okStub.restore();
+    expect(okStub.callCount).to.equal(1);
+    expect(okStub.calledWith(false, 'oh no!')).to.be.true();
+  });
+});
+
+describe('expect', function() {
+  describe('.to', function() {
+    it('is purely syntactic sugar', function() {
+      var expectation = expect(0);
+      expect(expectation.to).to.equal(expectation);
+    });
+  });
+
+  describe('.be', function() {
+    it('is purely syntactic sugar', function() {
+      var expectation = expect(0);
+      expect(expectation.be).to.equal(expectation);
+    });
+  });
+
+  describe('.equal', function() {
+    it('delegates to QUnit.strictEqual', function() {
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(1).to.equal(2);
+      strictEqualStub.restore();
+
+      expect(strictEqualStub.callCount).to.equal(1);
+      var args = strictEqualStub.firstCall.args;
+      expect(args[0]).to.equal(1);
+      expect(args[1]).to.equal(2);
+      expect(args[2]).to.equal(undefined);
+    });
+
+    it('takes an optional message argument', function() {
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(1 + 1).to.equal(2, 'math works');
+      strictEqualStub.restore();
+
+      expect(strictEqualStub.firstCall.args[2]).to.equal('math works');
+    });
+  });
+
+  describe('.not.equal', function() {
+    it('delegates to QUnit.notStrictEqual', function() {
+      var notStrictEqualStub = sinon.stub(QUnit, 'notStrictEqual');
+      expect(1).to.not.equal(2);
+      notStrictEqualStub.restore();
+
+      expect(notStrictEqualStub.callCount).to.equal(1);
+      var args = notStrictEqualStub.firstCall.args;
+      expect(args[0]).to.equal(1, 'actual matches');
+      expect(args[1]).to.equal(2, 'expected matches');
+      expect(args[2]).to.equal(undefined);
+    });
+
+    it('takes an optional message argument', function() {
+      var notStrictEqualStub = sinon.stub(QUnit, 'notStrictEqual');
+      expect(1 + 1).to.not.equal(2, 'math does not work');
+      notStrictEqualStub.restore();
+
+      expect(notStrictEqualStub.firstCall.args[2]).to.equal('math does not work');
+    });
+  });
+
+  describe('.eql', function() {
+    it('delegates to QUnit.deepEqual', function() {
+      var deepEqualStub = sinon.stub(QUnit, 'deepEqual');
+      var actual = {actual: true};
+      var expected = {expected: true};
+      expect(actual).to.eql(expected);
+      deepEqualStub.restore();
+
+      expect(deepEqualStub.callCount).to.equal(1, 'deepEqual called once');
+      var args = deepEqualStub.firstCall.args;
+      expect(args[0]).to.equal(actual, 'actual matches');
+      expect(args[1]).to.equal(expected, 'expected matches');
+      expect(args[2]).to.equal(undefined);
+    });
+
+    it('takes an optional message argument', function() {
+      var deepEqualStub = sinon.stub(QUnit, 'deepEqual');
+      expect({a:1}).to.eql({a:1}, 'keys and values match');
+      deepEqualStub.restore();
+
+      expect(deepEqualStub.firstCall.args[2]).to.equal('keys and values match');
+    });
+  });
+
+  describe('.defined', function() {
+    it('delegates to QUnit.push by comparing to null and undefined', function() {
+      var pushStub = sinon.stub(QUnit, 'push');
+      expect(99).to.be.defined();
+      expect(null).to.be.defined();
+      expect(undefined).to.be.defined();
+      pushStub.restore();
+
+      expect(pushStub.callCount).to.equal(3, 'push called three times');
+      var args;
+
+      args = pushStub.firstCall.args;
+      expect(args[0]).to.equal(true, 'result matches');
+      expect(args[1]).to.equal(99, 'actual matches');
+
+      args = pushStub.secondCall.args;
+      expect(args[0]).to.equal(false, 'result matches');
+      expect(args[1]).to.equal(null, 'actual matches');
+
+      args = pushStub.thirdCall.args;
+      expect(args[0]).to.equal(false, 'result matches');
+      expect(args[1]).to.equal(undefined, 'actual matches');
+    });
+
+    it('takes an optional message argument', function() {
+      var deepEqualStub = sinon.stub(QUnit, 'push');
+      expect(99).to.be.defined('99 luftballons');
+      deepEqualStub.restore();
+
+      expect(deepEqualStub.firstCall.args[3]).to.equal('99 luftballons');
+    });
+  });
+
+  describe('.not.defined', function() {
+    it('delegates to QUnit.push by comparing to null and undefined', function() {
+      var pushStub = sinon.stub(QUnit, 'push');
+      expect(99).to.not.be.defined();
+      expect(null).to.not.be.defined();
+      expect(undefined).to.not.be.defined();
+      pushStub.restore();
+
+      expect(pushStub.callCount).to.equal(3, 'push called three times');
+      var args;
+
+      args = pushStub.firstCall.args;
+      expect(args[0]).to.equal(false, 'result matches');
+      expect(args[1]).to.equal(99, 'actual matches');
+
+      args = pushStub.secondCall.args;
+      expect(args[0]).to.equal(true, 'result matches');
+      expect(args[1]).to.equal(null, 'actual matches');
+
+      args = pushStub.thirdCall.args;
+      expect(args[0]).to.equal(true, 'result matches');
+      expect(args[1]).to.equal(undefined, 'actual matches');
+    });
+
+    it('takes an optional message argument', function() {
+      var deepEqualStub = sinon.stub(QUnit, 'push');
+      expect(99).to.be.defined('99 luftballons');
+      deepEqualStub.restore();
+
+      expect(deepEqualStub.firstCall.args[3]).to.equal('99 luftballons');
+    });
+  });
+});
+
+var valueFromGlobalBefore;
+
+before(function() {
+  valueFromGlobalBefore = new Date();
+});
+
+describe('before', function() {
+  var x;
+
+  before(function() {
+    x = [1];
+  });
+
+  it('runs before each `it` test', function() {
+    expect(x).to.eql([1]);
+  });
+
+  it('runs after any global befores', function() {
+    expect(valueFromGlobalBefore).to.be.defined();
+  });
+
+  context('with a nested context containing a `before`', function() {
+    before(function() {
+      x.push(2);
+    });
+
+    before(function() {
+      x.push(3);
+    });
+
+    it('runs before hooks from the outside in and top to bottom', function() {
+      expect(x).to.eql([1, 2, 3]);
+    });
+  });
+});
+
+describe('after', function() {
+  var x;
+  var expected;
+
+  it('runs after the tests', function() {
+    x = [1];
+    expected = [1];
+  });
+
+  context('with a nested context containing an `after`', function() {
+    it('runs after hooks from the outside in and top to bottom', function() {
+      x = [];
+      expected = [1, 2];
+    });
+
+    after(function() {
+      x.push(1);
+    });
+
+    after(function() {
+      x.push(2);
+    });
+  });
+
+  after(function() {
+    expect(x).to.eql(expected);
+  });
+});
+
+describe('lazy', function() {
+  context('with a constant value', function() {
+    lazy('name', 'Brian');
+
+    it('makes the lazy value available as a property on the execution context', function() {
+      expect(this.name).to.equal('Brian');
+    });
+  });
+
+  context('with a dynamic value', function() {
+    lazy('name', function(){ return 'Madeline'; });
+
+    it('makes the lazy value available as a property on the execution context', function() {
+      expect(this.name).to.equal('Madeline');
+    });
+  });
+
+  context('with dependent values', function() {
+    var order = [];
+    lazy('E', function(){ order.push('E'); return this.M * Math.pow(this.C, 2); });
+    lazy('M', function(){ order.push('M'); return 10; });
+    lazy('C', function(){ order.push('C'); return 3; });
+
+    it('makes the lazy values available in the order they are accessed', function() {
+      expect(this.E).to.equal(90);
+      expect(order).to.eql(['E', 'M', 'C']);
+    });
+  });
+
+  context('defining a value dependent on undefined values', function() {
+    lazy('name', function(){ return this.firstName + ' ' + this.lastName; });
+
+    context('with a nested context that defines those values', function() {
+      lazy('firstName', 'Michael');
+      lazy('lastName', 'Bluth');
+
+      it('makes the parent context use the child-defined values', function() {
+        expect(this.name).to.equal('Michael Bluth');
+      });
+    });
+  });
+
+  context('allows using a dependent value from a `before` callback', function() {
+    var name;
+    lazy('name', function(){ return this.firstName + ' ' + this.lastName; });
+
+    before(function() {
+      name = this.name;
+    });
+
+    context('with a nested context that defines the dependencies', function() {
+      lazy('firstName', 'Michael');
+      lazy('lastName', 'Bluth');
+
+      it('makes the parent context use the child-defined values', function() {
+        expect(name).to.equal('Michael Bluth');
+      });
+    });
+  });
+});
