@@ -5,7 +5,7 @@ BDD-style testing for QUnit.
 ```js
 describe('keys', function() {
   describe('.camelize', function() {
-    it 'camelizes top-level keys', function() {
+    it('camelizes top-level keys', function() {
       expect(camelize({ ohai_there: 'friend' })).to.eql({ ohaiThere: 'friend' });
     });
 
@@ -179,8 +179,8 @@ the `develop` grunt test:
 $ grunt develop
 ```
 
-Then go to http://localhost:8000/test in your browser (run with `PORT={port}`
-to override the default port).
+Then go to http://localhost:8000/ in your browser (run with `PORT={port}` to
+override the default port).
 
 ### Pull Requests
 
