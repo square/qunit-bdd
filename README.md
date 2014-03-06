@@ -131,9 +131,10 @@ QUnit's default `module`/`test` functions.
 
 ### QUnit
 
-It's still QUnit, so you can write some tests using the `module`/`test` style
-if you find it more appropriate sometimes. Also, you can export as much or as
-little of qunit-bdd to the global scope as you like:
+It's still QUnit, so you can write some tests using the `module`/`test` style,
+complete with the usual `ok`/`equal`/`deepEqual` assertions, if you find it
+more appropriate sometimes. Also, you can export as much or as little of
+qunit-bdd to the global scope as you like:
 
 ```js
 // Turn off `lazy` and `context` exports.
