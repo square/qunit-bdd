@@ -5,7 +5,7 @@ BDD-style testing for QUnit.
 ```js
 describe('keys', function() {
   describe('.camelize', function() {
-    it 'camelizes top-level keys', function() {
+    it('camelizes top-level keys', function() {
       expect(camelize({ ohai_there: 'friend' })).to.eql({ ohaiThere: 'friend' });
     });
 
