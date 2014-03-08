@@ -24,6 +24,53 @@ describe('describe', function() {
       expect(executionContext.parent).to.equal(parentExecutionContext);
     });
   });
+
+  describe.skip('.skip', function() {
+    it('skips all tests in the context', function() {
+      fail('this should not run');
+    });
+
+    describe('with a nested context not using .skip', function() {
+      it('skips all tests in this context too', function() {
+        fail('this should not run');
+      });
+    });
+  });
+
+  describe('.only', function() {
+    it('configures QUnit to filter by module', function() {
+      var module = QUnit.config.module;
+
+      describe.only('fake context with describe.only', function(){});
+      expect(QUnit.config.module).to.equal('fake context with describe.only');
+
+      QUnit.config.module = module;
+    });
+  });
+});
+
+describe('it.skip', function() {
+  it.skip('skips the test and marks it as skipped', function() {
+    fail('this should not run');
+  });
+});
+
+describe('it.only', function() {
+  it('configures QUnit to filter by module and test', function() {
+    var module = QUnit.config.module;
+    var filter = QUnit.config.filter;
+
+    // This really does add a test that will be run.
+    describe('fake context with it.only', function() {
+      it.only('it.only test', function(){ QUnit.expect(0); });
+    });
+
+    expect(QUnit.config.module).to.equal('fake context with it.only');
+    expect(QUnit.config.filter).to.equal('it.only test');
+
+    QUnit.config.module = module;
+    QUnit.config.filter = filter;
+  });
 });
 
 describe('context', function() {
@@ -343,3 +390,5 @@ describe('lazy', function() {
     });
   });
 });
+
+

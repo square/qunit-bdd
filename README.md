@@ -147,6 +147,12 @@ QUNIT_BDD_OPTIONS = {
 };
 ```
 
+You can also configure which tests are run, which can aid in debugging. To skip
+a particular test (or context), use `it.skip()` instead of `it()` (or
+`describe.skip()` instead of `describe()`). To run *only* a particular test (or
+context), use `it.only()` instead of `it` (or `describe.only()` instead of
+`describe()`).
+
 #### Expectations / Assertions
 
 You can configure the built-in assertion `expect()` function to add your own
