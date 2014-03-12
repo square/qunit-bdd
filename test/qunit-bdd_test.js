@@ -389,6 +389,18 @@ describe('lazy', function() {
       });
     });
   });
+
+  context('with a context defining a lazy used in subsequent tests', function() {
+    lazy('object', function(){ return {}; });
+
+    it('does not return the same instance used by the test below', function() {
+      this.object.definedAbove = true;
+      expect(this.object.definedBelow).to.be.undefined();
+    });
+
+    it('does not return the same instance used by the test above', function() {
+      this.object.definedBelow = true;
+      expect(this.object.definedAbove).to.be.undefined();
+    });
+  });
 });
-
-
