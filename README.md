@@ -162,7 +162,7 @@ custom assertions or override the built-in ones:
 expect.configure({
   // expect(2).to.be.even();
   even: function() {
-    QUnit.ok(this._actual % 2, 'expected ' + this._actual + ' to be even');
+    QUnit.ok(!(this._actual % 2), 'expected ' + this._actual + ' to be even');
   }
 });
 ```
