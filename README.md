@@ -141,8 +141,8 @@ qunit-bdd to the global scope as you like:
 // Make sure to set this before loading qunit-bdd.js.
 QUNIT_BDD_OPTIONS = {
   GLOBAL: {
-    lazy: false,
-    context: false
+    lazy: false,  // don't use lazy
+    expect: false // use the regular QUnit assertions (or another set altogether)
   }
 };
 ```
