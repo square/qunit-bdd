@@ -2,7 +2,7 @@
   "name": "qunit-bdd",
   "version": "0.0.4",
   "description": "BDD-style testing for QUnit.",
-  "main": "lib/index.js",
+  "main": "lib/qunit-bdd.js",
   "directories": {
     "test": "test"
   },
