@@ -269,9 +269,11 @@ describe('expect', function() {
     it('allows augmenting the default expect assertion', function() {
       var assertion = expect();
       expect(assertion.even).not.to.be.defined();
-      expect.configure({ even: function(){
-        QUnit.ok(!(this._actual % 2), 'expected ' + this._actual + ' to be even');
-      } });
+      expect.configure({
+        even: function() {
+          QUnit.ok(this._actual % 2 === 0, 'expected ' + this._actual + ' to be even');
+        }
+      });
       expect(2).to.be.even();
       expect(typeof assertion.even).to.equal('function');
       expect.configure({ even: undefined });
