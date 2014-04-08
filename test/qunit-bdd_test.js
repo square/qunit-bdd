@@ -50,8 +50,24 @@ describe('describe', function() {
 });
 
 describe('it.skip', function() {
+  var beforeCount = 0;
+  var afterCount = 0;
+
+  before(function() {
+    beforeCount++;
+  });
+
+  after(function() {
+    afterCount++;
+  });
+
   it.skip('skips the test and marks it as skipped', function() {
     fail('this should not run');
+  });
+
+  it('has only run `before` once at this point', function() {
+    expect(beforeCount).to.equal(1);
+    expect(afterCount).to.equal(0);
   });
 });
 
