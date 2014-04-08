@@ -2,6 +2,17 @@
 /* global describe, context, it, before, after, lazy, expect, fail, ok */
 /* global QUnit, sinon */
 
+/**
+ * To anyone attempting to debug these tests:
+ *
+ * Please note that these tests depend on test pollution to ensure the correct
+ * behavior of `before`, `after`, `it`, `describe`, `it.skip`, etc. I would
+ * like for this not to be the case, but I didn't see any good way around it.
+ * What this means is that you should not run the tests in isolation, but as a
+ * whole test suite. Fortunately the tests are really fast so this shouldn't be
+ * much of a problem.
+ */
+
 describe('describe', function() {
   var parentExecutionContext = this;
 
