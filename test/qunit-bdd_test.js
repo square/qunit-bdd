@@ -436,3 +436,71 @@ describe('lazy', function() {
     });
   });
 });
+
+describe('async', function() {
+  var order = [];
+
+  before(function() {
+    order.push(0);
+  });
+
+  before(function() {
+    QUnit.stop();
+    setTimeout(function() {
+      order.push(1);
+      QUnit.start();
+    });
+  });
+
+  before(function() {
+    order.push(2);
+  });
+
+  context('with an inner context', function() {
+    before(function() {
+      order.push(3);
+    });
+
+    context('and yet another inner context', function() {
+      before(function() {
+        QUnit.stop();
+        setTimeout(function() {
+          order.push(4);
+          QUnit.start();
+        });
+      });
+
+      it('waits for each `before` and `after` in each level to be done before moving to the next', function() {
+        // The assertion is in the final `after` below.
+        order.push(5);
+        QUnit.stop();
+        setTimeout(function() {
+          console.log(order);
+          order.push(6);
+          QUnit.start();
+        });
+      });
+
+      after(function() {
+        order.push(7);
+      });
+    });
+  });
+
+  after(function() {
+    QUnit.stop();
+    setTimeout(function() {
+      order.push(8);
+      QUnit.start();
+    });
+  });
+
+  after(function() {
+    order.push(9);
+  });
+
+  after(function() {
+    // ASSERTION HERE
+    expect(order).to.eql([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+});
