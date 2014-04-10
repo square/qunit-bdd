@@ -13,6 +13,10 @@
     "qunit",
     "bdd"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:square/qunit-bdd.git"
+  },
   "author": "Brian Donovan",
   "license": "Apache 2",
   "devDependencies": {
