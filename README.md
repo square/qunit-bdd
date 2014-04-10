@@ -167,6 +167,11 @@ expect.configure({
 });
 ```
 
+### Community
+
+Come chat on our [Google Group][google-group] page or use the
+[qunit-bdd][stack-overflow] tag on Stack Overflow.
+
 ### Contributing
 
 #### Setup
@@ -217,3 +222,6 @@ bases and makes sure you're eligible to contribute.
 When you have a change you'd like to see in the master repository, [send a pull
 request](https://github.com/square/qunit-bdd/pulls). Before we merge your
 request, we'll make sure you're in the list of people who have signed a CLA.
+
+[google-group]: https://groups.google.com/forum/#!forum/qunit-bdd
+[stack-overflow]: http://stackoverflow.com/questions/tagged/qunit-bdd
