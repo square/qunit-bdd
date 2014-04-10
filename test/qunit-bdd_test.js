@@ -117,6 +117,29 @@ describe('fail', function() {
 });
 
 describe('expect', function() {
+  describe('QUnit.expect delegation', function() {
+    it('behaves like QUnit.expect if no accessors are called on the expect() object', function() {
+      expect(3);
+      QUnit.equal(QUnit.config.current.expected, 3);
+      expect(1);
+    });
+
+    it('it does not override the expected assertion count if .to or .be is called', function() {
+      expect(3).to.equal(3);
+      QUnit.equal(QUnit.config.current.expected, null);
+      expect(3).to;
+      QUnit.equal(QUnit.config.current.expected, null);
+      expect(3).be;
+      QUnit.equal(QUnit.config.current.expected, null);
+    });
+
+    it('it does not override the expected assertion count if default assertions are called', function() {
+      QUnit.expect(2);
+      expect(1).equal(1);
+      QUnit.equal(QUnit.config.current.expected, 2);
+    });
+  });
+
   describe('.to', function() {
     it('is purely syntactic sugar', function() {
       var expectation = expect(0);
