@@ -437,6 +437,24 @@ describe('lazy', function() {
   });
 });
 
+describe('helper', function() {
+  context('defines helper functions stashed on the current context', function() {
+    helper('someHelper', function(num) {
+      return this.anotherHelper(num+1);
+    });
+
+    helper('anotherHelper', function(num) {
+      return num + this.inc;
+    });
+
+    it('works', function() {
+      this.inc = 2;
+      var val = this.someHelper(1);
+      QUnit.equal(val, 4);
+    });
+  });
+});
+
 describe('async', function() {
   var order = [];
 
