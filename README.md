@@ -127,7 +127,36 @@ describe('Person', function() {
 The benefit to this approach over setting up your test objects in `before` is
 that you can override parts of the built objects declaratively in nested
 contexts, something you might have used a bunch of helper functions to do with
-QUnit's default `module`/`test` functions.
+QUnit's default `module`/`test` functions:
+
+You can also use `helper` to define helper functions that have access to
+everything defined on the test context. This is useful for reusing a
+piece of code between tests that have different setups. Example:
+
+```js
+describe('APIRequest', function() {
+  before(function() {
+    this.url = "http://api.endpoint.com";
+    this.apiController = new ApiController();
+    this.moreTestState = {};
+  });
+
+  helper('fireApiRequest, function() {
+    // full access to everything on current context.
+    this.apiController.ajax(this.url, this.moreTestState);
+  });
+
+  it('works', function() {
+    // ... test-specific setup
+    this.fireApiRequest();
+  });
+
+  it('works in another context', function() {
+    // ... test-specific setup
+    this.fireApiRequest();
+  });
+});
+```
 
 ### Configuration
 
