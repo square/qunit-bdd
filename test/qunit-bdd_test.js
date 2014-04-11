@@ -1,5 +1,5 @@
 /* jshint node:true, browser:true, undef:true */
-/* global describe, context, it, before, after, lazy, expect, fail, ok */
+/* global describe, context, it, before, after, lazy, helper, expect, fail, ok */
 /* global QUnit, sinon */
 
 /**
@@ -52,7 +52,7 @@ describe('describe', function() {
     it('configures QUnit to filter by module', function() {
       var module = QUnit.config.module;
 
-      describe.only('fake context with describe.only', function(){});
+      describe.only('fake context with describe.only', function() {});
       expect(QUnit.config.module).to.equal('fake context with describe.only');
 
       QUnit.config.module = module;
@@ -89,7 +89,7 @@ describe('it.only', function() {
 
     // This really does add a test that will be run.
     describe('fake context with it.only', function() {
-      it.only('it.only test', function(){ QUnit.expect(0); });
+      it.only('it.only test', function() { QUnit.expect(0); });
     });
 
     expect(QUnit.config.module).to.equal('fake context with it.only');
@@ -192,7 +192,7 @@ describe('expect', function() {
 
     it('takes an optional message argument', function() {
       var deepEqualStub = sinon.stub(QUnit, 'deepEqual');
-      expect({a:1}).to.eql({a:1}, 'keys and values match');
+      expect({a: 1}).to.eql({a: 1}, 'keys and values match');
       deepEqualStub.restore();
 
       expect(deepEqualStub.firstCall.args[2]).to.equal('keys and values match');
@@ -287,7 +287,7 @@ describe('expect', function() {
         var config = {};
         Object.defineProperty(config, 'isisis', {
           enumerable: true,
-          get: function(){ return this; }
+          get: function() { return this; }
         });
         expect.configure(config);
         expect(assertion.isisis).to.equal(assertion);
@@ -372,7 +372,7 @@ describe('lazy', function() {
   });
 
   context('with a dynamic value', function() {
-    lazy('name', function(){ return 'Madeline'; });
+    lazy('name', function() { return 'Madeline'; });
 
     it('makes the lazy value available as a property on the execution context', function() {
       expect(this.name).to.equal('Madeline');
@@ -381,9 +381,9 @@ describe('lazy', function() {
 
   context('with dependent values', function() {
     var order = [];
-    lazy('E', function(){ order.push('E'); return this.M * Math.pow(this.C, 2); });
-    lazy('M', function(){ order.push('M'); return 10; });
-    lazy('C', function(){ order.push('C'); return 3; });
+    lazy('E', function() { order.push('E'); return this.M * Math.pow(this.C, 2); });
+    lazy('M', function() { order.push('M'); return 10; });
+    lazy('C', function() { order.push('C'); return 3; });
 
     it('makes the lazy values available in the order they are accessed', function() {
       expect(this.E).to.equal(90);
@@ -392,7 +392,7 @@ describe('lazy', function() {
   });
 
   context('defining a value dependent on undefined values', function() {
-    lazy('name', function(){ return this.firstName + ' ' + this.lastName; });
+    lazy('name', function() { return this.firstName + ' ' + this.lastName; });
 
     context('with a nested context that defines those values', function() {
       lazy('firstName', 'Michael');
@@ -406,7 +406,7 @@ describe('lazy', function() {
 
   context('allows using a dependent value from a `before` callback', function() {
     var name;
-    lazy('name', function(){ return this.firstName + ' ' + this.lastName; });
+    lazy('name', function() { return this.firstName + ' ' + this.lastName; });
 
     before(function() {
       name = this.name;
@@ -423,7 +423,7 @@ describe('lazy', function() {
   });
 
   context('with a context defining a lazy used in subsequent tests', function() {
-    lazy('object', function(){ return {}; });
+    lazy('object', function() { return {}; });
 
     it('does not return the same instance used by the test below', function() {
       this.object.definedAbove = true;
@@ -440,7 +440,7 @@ describe('lazy', function() {
 describe('helper', function() {
   context('defines helper functions stashed on the current context', function() {
     helper('someHelper', function(num) {
-      return this.anotherHelper(num+1);
+      return this.anotherHelper(num + 1);
     });
 
     helper('anotherHelper', function(num) {
