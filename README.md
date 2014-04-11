@@ -211,12 +211,6 @@ First, install the development dependencies:
 $ npm install
 ```
 
-You may need to install the `grunt` command-line utility:
-
-```
-$ [sudo] npm install -g grunt-cli
-```
-
 Then, try running the tests:
 
 ```
@@ -227,10 +221,10 @@ $ npm test
 
 As you make changes you may find it useful to have everything automatically
 compiled and ready to test interactively in the browser. You can do that using
-the `develop` grunt test:
+the `develop` script:
 
 ```
-$ grunt develop
+$ npm run develop
 ```
 
 Then go to http://localhost:8000/test in your browser (run with `PORT={port}`
