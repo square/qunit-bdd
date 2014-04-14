@@ -196,6 +196,10 @@ expect.configure({
 });
 ```
 
+Note that the `expect()` function can still be used as you would while writing
+QUnit tests the normal way, i.e. as `expect(4)` to set the number of expected
+assertions.
+
 ### Community
 
 Come chat on our [Google Group][google-group] page or use the

@@ -124,16 +124,18 @@ describe('expect', function() {
       expect(1);
     });
 
-    it('it does not override the expected assertion count if .to or .be is called', function() {
+    it('does not override the expected assertion count if .to or .be is called', function() {
+      /* jshint expr:true */
       expect(3).to.equal(3);
       QUnit.equal(QUnit.config.current.expected, null);
       expect(3).to;
       QUnit.equal(QUnit.config.current.expected, null);
       expect(3).be;
       QUnit.equal(QUnit.config.current.expected, null);
+      /* jshint expr:false */
     });
 
-    it('it does not override the expected assertion count if default assertions are called', function() {
+    it('does not override the expected assertion count if default assertions are called', function() {
       QUnit.expect(2);
       expect(1).equal(1);
       QUnit.equal(QUnit.config.current.expected, 2);
