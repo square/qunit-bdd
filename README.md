@@ -141,7 +141,7 @@ describe('APIRequest', function() {
     this.moreTestState = {};
   });
 
-  helper('fireApiRequest, function() {
+  helper('fireApiRequest', function() {
     // full access to everything on current context.
     this.apiController.ajax(this.url, this.moreTestState);
   });
