@@ -290,6 +290,46 @@ describe('expect', function() {
     });
   });
 
+  describe('.undefined', function() {
+    it('takes an optional message argument', function() {
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(undefined).to.be['undefined']('tautology');
+      strictEqualStub.restore();
+
+      expect(strictEqualStub.firstCall.args[2]).to.equal('tautology');
+    });
+  });
+
+  describe('.null', function() {
+    it('takes an optional message argument', function() {
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(null).to.be['null']('tautology');
+      strictEqualStub.restore();
+
+      expect(strictEqualStub.firstCall.args[2]).to.equal('tautology');
+    });
+  });
+
+  describe('.true', function() {
+    it('takes an optional message argument', function() {
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(true).to.be['true']('tautology');
+      strictEqualStub.restore();
+
+      expect(strictEqualStub.firstCall.args[2]).to.equal('tautology');
+    });
+  });
+
+  describe('.false', function() {
+    it('takes an optional message argument', function() {
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(false).to.be['false']('tautology');
+      strictEqualStub.restore();
+
+      expect(strictEqualStub.firstCall.args[2]).to.equal('tautology');
+    });
+  });
+
   describe('.configure', function() {
     it('allows augmenting the default expect assertion', function() {
       var assertion = expect();
