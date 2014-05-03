@@ -434,6 +434,11 @@ describe('lazy', function() {
     it('makes the lazy value available as a property on the execution context', function() {
       expect(this.name).to.equal('Brian');
     });
+
+    it('can be overridden', function() {
+      this.name = "Alex";
+      expect(this.name).to.equal('Alex');
+    });
   });
 
   context('with a dynamic value', function() {
@@ -441,6 +446,11 @@ describe('lazy', function() {
 
     it('makes the lazy value available as a property on the execution context', function() {
       expect(this.name).to.equal('Madeline');
+    });
+
+    it('can be overridden', function() {
+      this.name = "Alex";
+      expect(this.name).to.equal('Alex');
     });
   });
 
