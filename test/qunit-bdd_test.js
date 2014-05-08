@@ -568,7 +568,6 @@ describe('async', function() {
         order.push(5);
         QUnit.stop();
         setTimeout(function() {
-          console.log(order);
           order.push(6);
           QUnit.start();
         });
