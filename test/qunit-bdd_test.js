@@ -568,7 +568,6 @@ describe('async', function() {
         order.push(5);
         QUnit.stop();
         setTimeout(function() {
-          console.log(order);
           order.push(6);
           QUnit.start();
         });
@@ -596,4 +595,70 @@ describe('async', function() {
     // ASSERTION HERE
     expect(order).to.eql([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
+});
+
+describe('exceptions', function() {
+  var pushFailureStub;
+
+  context('thrown in a `before`', function() {
+    before(function() {
+      pushFailureStub = sinon.stub(QUnit, 'pushFailure');
+      throw new Error('uncaught exception in a `before`');
+    });
+
+    it('add a failure', function() {
+      pushFailureStub.restore();
+      expect(pushFailureStub.callCount).to.equal(1);
+      expect(pushFailureStub.firstCall.args).to.eql([
+        'Exception while running qunit-bdd `before` hook: uncaught exception in a `before`',
+        QUnit.config.current.stack
+      ]);
+    });
+  });
+
+  context('thrown in an `it`', function() {
+    before(function() {
+      pushFailureStub = sinon.stub(QUnit, 'pushFailure');
+    });
+
+    it('adds a failure', function() {
+      throw new Error('uncaught exception in an `it`');
+    });
+
+    after(function() {
+      pushFailureStub.restore();
+      expect(pushFailureStub.callCount).to.equal(1);
+      var args = pushFailureStub.firstCall.args[1];
+      for (var i = 0, length = args.length; i < length; i++) {
+        if (typeof args[i] === 'string' && args[i].indexOf('uncaught exception in an `it`')) {
+          return;
+        }
+      }
+      ok(false, args.join(' ') + ' did not contain the expected message');
+    });
+  });
+
+  if (window.location.search.indexOf('run-failures=1') >= 0) {
+    context('with notrycatch on', function() {
+      var notrycatch = QUnit.config.notrycatch;
+
+      before(function() {
+        QUnit.config.notrycatch = true;
+      });
+
+      context('and a nested context', function() {
+        before(function() {
+          throw new Error('unhandled exception not being caught!');
+        });
+
+        it('bubbles the exception up all the way to the root', function() {
+          ok(false, 'we should never get here');
+        });
+      });
+
+      after(function() {
+        QUnit.config.notrycatch = notrycatch;
+      });
+    });
+  }
 });
