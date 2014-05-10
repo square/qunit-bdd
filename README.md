@@ -127,7 +127,7 @@ describe('Person', function() {
 The benefit to this approach over setting up your test objects in `before` is
 that you can override parts of the built objects declaratively in nested
 contexts, something you might have used a bunch of helper functions to do with
-QUnit's default `module`/`test` functions:
+QUnit's default `module`/`test` functions.
 
 You can also use `helper` to define helper functions that have access to
 everything defined on the test context. This is useful for reusing a
