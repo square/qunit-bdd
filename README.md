@@ -176,6 +176,13 @@ QUNIT_BDD_OPTIONS = {
 };
 ```
 
+By default your tests will run in the order in which they are defined. This is
+usually desirable for interactive development and debugging. But for continuous
+integration you may want to run your tests in a random order to reveal any
+hidden dependencies between your tests that may be causing them not to work as
+expected. To turn this on, set `QUNIT_BDD_OPTIONS.randomize` to `true`. Doing
+so will first shuffle your `describe`s, then shuffle the `it`s within.
+
 You can also configure which tests are run, which can aid in debugging. To skip
 a particular test (or context), use `it.skip()` instead of `it()` (or
 `describe.skip()` instead of `describe()`). To run *only* a particular test (or
