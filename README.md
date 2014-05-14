@@ -176,12 +176,32 @@ QUNIT_BDD_OPTIONS = {
 };
 ```
 
+#### Randomness
+
 By default your tests will run in the order in which they are defined. This is
 usually desirable for interactive development and debugging. But for continuous
 integration you may want to run your tests in a random order to reveal any
 hidden dependencies between your tests that may be causing them not to work as
 expected. To turn this on, set `QUNIT_BDD_OPTIONS.randomize` to `true`. Doing
 so will first shuffle your `describe`s, then shuffle the `it`s within.
+
+If you want to use a particular randomizer, pass a function that takes an array
+and returns a shuffled array instead of `true`.  For example, here's how to
+configure qunit-bdd to use [chance.js][chance.js] with a random (but
+repeatable, for reproducing failures locally) seed:
+
+```js
+var seed = Math.floor(Math.random() * 1000);
+console.log('Random test order seed:', seed);
+var chance = new Chance(seed);
+QUNIT_BDD_OPTIONS = {
+  randomize: function(array) {
+    return chance.shuffle(array);
+  }
+};
+```
+
+#### Skipping Tests
 
 You can also configure which tests are run, which can aid in debugging. To skip
 a particular test (or context), use `it.skip()` instead of `it()` (or
@@ -257,5 +277,6 @@ When you have a change you'd like to see in the master repository, [send a pull
 request](https://github.com/square/qunit-bdd/pulls). Before we merge your
 request, we'll make sure you're in the list of people who have signed a CLA.
 
+[chance.js]: http://chancejs.com/
 [google-group]: https://groups.google.com/forum/#!forum/qunit-bdd
 [stack-overflow]: http://stackoverflow.com/questions/tagged/qunit-bdd
