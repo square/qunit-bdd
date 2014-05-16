@@ -6,6 +6,10 @@
   "directories": {
     "test": "test"
   },
+  "files": [
+    "lib/qunit-bdd.js",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "node_modules/karma/bin/karma --singleRun=true start karma.conf.js",
     "develop": "node_modules/karma/bin/karma start karma.conf.js"
