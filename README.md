@@ -248,7 +248,7 @@ Then, try running the tests:
 $ npm test
 ```
 
-### Development
+#### Development
 
 As you make changes you may find it useful to have everything automatically
 compiled and ready to test interactively in the browser. You can do that using
@@ -261,7 +261,7 @@ $ npm run develop
 Then go to http://localhost:8000/test in your browser (run with `PORT={port}`
 to override the default port).
 
-### Pull Requests
+#### Pull Requests
 
 Contributions via pull requests are very welcome! Follow the steps in
 Developing above, then add your feature or bugfix with tests to cover it, push
@@ -280,3 +280,25 @@ request, we'll make sure you're in the list of people who have signed a CLA.
 [chance.js]: http://chancejs.com/
 [google-group]: https://groups.google.com/forum/#!forum/qunit-bdd
 [stack-overflow]: http://stackoverflow.com/questions/tagged/qunit-bdd
+
+### Why?
+
+QUnit is a well-tested testing framework used projects such as jQuery and
+Ember. It works very well for unit-style testing with fairly simple inputs and
+outputs. It is less well suited to acceptance or integration testing, where you
+often want to test slight variations of the same thing. The nested context of
+the BDD style translate well to this sort of need.
+
+You might be wondering, "Why not just use Pavlov?" That is a reasonable
+question. Pavlov has been around for some time and has reached the point, much
+like QUnit itself, where not much changes. Both are stable and reliable.
+Unfortunately, Pavlov has a number of assumptions that did not work well with
+how we test applications at Square. We wanted the ability to use multiple
+`before` and `after` blocks per `describe` (for shared examples). We wanted
+async to be a first-class citizen, not something to be avoided. Pavlov runs
+`before` blocks synchronously from the outermost to the innermost `describe`.
+We needed to be able to pause until the `before` in an outer describe finished
+before running the `before` in the next inner `describe`. Finally, we wanted an
+equivalent to RSpec's `let` to give us a more declarative style for our objects
+under test, complete with easy overrides in nested contexts. This is `lazy` in
+qunit-bdd.
