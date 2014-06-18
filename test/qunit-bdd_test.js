@@ -176,6 +176,13 @@ describe('expect', function() {
 
       expect(strictEqualStub.firstCall.args[2]).to.equal('math works');
     });
+
+    it('passes the right number of arguments if message not passed', function(){
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(1 + 1).to.equal(2);
+      strictEqualStub.restore();
+      expect(strictEqualStub.firstCall.args.length).to.equal(2);
+    });
   });
 
   describe('.not.equal', function() {
@@ -197,6 +204,13 @@ describe('expect', function() {
       notStrictEqualStub.restore();
 
       expect(notStrictEqualStub.firstCall.args[2]).to.equal('math does not work');
+    });
+
+    it('passes the right number of arguments if message not passed', function(){
+      var notStrictEqualStub = sinon.stub(QUnit, 'notStrictEqual');
+      expect(1 + 1).to.not.equal(2);
+      notStrictEqualStub.restore();
+      expect(notStrictEqualStub.firstCall.args.length).to.equal(2);
     });
   });
 
@@ -221,6 +235,13 @@ describe('expect', function() {
       deepEqualStub.restore();
 
       expect(deepEqualStub.firstCall.args[2]).to.equal('keys and values match');
+    });
+
+    it('passes the right number of arguments if message not passed', function(){
+      var deepEqualStub = sinon.stub(QUnit, 'deepEqual');
+      expect(1 + 1).to.eql(2);
+      deepEqualStub.restore();
+      expect(deepEqualStub.firstCall.args.length).to.equal(2);
     });
   });
 
@@ -308,6 +329,14 @@ describe('expect', function() {
 
       expect(strictEqualStub.firstCall.args[2]).to.equal('tautology');
     });
+
+    it('passes the right number of arguments if message not passed', function(){
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(null).to.be['null']();
+      strictEqualStub.restore();
+
+      expect(strictEqualStub.firstCall.args.length).to.equal(2);
+    });
   });
 
   describe('.true', function() {
@@ -318,6 +347,14 @@ describe('expect', function() {
 
       expect(strictEqualStub.firstCall.args[2]).to.equal('tautology');
     });
+
+    it('passes the right number of arguments if message not passed', function(){
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(true).to.be['true']();
+      strictEqualStub.restore();
+
+      expect(strictEqualStub.firstCall.args.length).to.equal(2);
+    });
   });
 
   describe('.false', function() {
@@ -327,6 +364,14 @@ describe('expect', function() {
       strictEqualStub.restore();
 
       expect(strictEqualStub.firstCall.args[2]).to.equal('tautology');
+    });
+
+    it('passes the right number of arguments if message not passed', function(){
+      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+      expect(false).to.be['false']()
+      strictEqualStub.restore();
+
+      expect(strictEqualStub.firstCall.args.length).to.equal(2);
     });
   });
 
