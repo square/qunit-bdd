@@ -1,6 +1,7 @@
 /* jshint node:true, browser:true, undef:true */
 /* global describe, context, it, before, after, lazy, helper, expect, fail, ok */
 /* global QUnit, sinon */
+/* global RSVP */
 
 /**
  * To anyone attempting to debug these tests:
@@ -661,4 +662,81 @@ describe('exceptions', function() {
       });
     });
   }
+});
+
+describe('async with promises', function() {
+  it.async('with no return', function() {
+    expect('no_return').to.equal('no_return');
+  });
+
+  it.async('with non promise return', function() {
+    expect('non_promise_return').to.equal('non_promise_return');
+    return 'not_a_promise';
+  });
+
+  it.async('with promise that resolves', function() {
+    var promise = new RSVP.Promise(function(resolve, reject) {
+      setTimeout(function() {
+        expect('promise').to.equal('promise');
+        resolve();
+      }, 10);
+    });
+
+    return promise;
+  });
+
+  it.async('with promise that rejects', function() {
+    var promise = new RSVP.Promise(function(resolve, reject) {
+      setTimeout(function() {
+        expect('promise').to.equal('promise');
+        reject();
+      }, 10);
+    });
+
+    return promise;
+  });
+
+  it.async('with promise that is chained', function() {
+    var promise = new RSVP.Promise(function(resolve, reject) {
+      setTimeout(function() {
+        expect('promise').to.equal('promise');
+        resolve();
+      }, 10);
+    });
+
+    promise = promise.then(function() {})
+    .then(function() {})
+    .then(function() {});
+
+    return promise;
+  });
+
+  it.async('with promise that also has finally', function() {
+    var promise = new RSVP.Promise(function(resolve, reject) {
+      setTimeout(function() {
+        expect('promise').to.equal('promise');
+        resolve();
+      }, 10);
+    });
+
+    promise = promise.finally(function() {});
+
+    return promise;
+  });
+
+  /* this test is supposed to fail with a timeout error */
+  /*
+  it.async('with promise that times out', function() {
+    var promise = new RSVP.Promise(function(resolve, reject) {
+      setTimeout(function() {
+        expect('promise').to.equal('promise');
+        resolve();
+      }, 2000);
+    });
+
+    promise = promise.finally(function() {});
+
+    return promise;
+  }, 10);
+  */
 });
