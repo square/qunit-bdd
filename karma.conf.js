@@ -18,6 +18,7 @@ module.exports = function(config) {
       'test/preconfig.js',
       'lib/**/*.js',
       'test/vendor/sinon.js',
+      'test/vendor/rsvp.js',
       'test/**/*_test.js'
     ],
 
