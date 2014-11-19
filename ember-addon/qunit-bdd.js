@@ -1,30 +1,24 @@
 'use strict';
 
 var path = require('path');
-var fs   = require('fs');
 
 module.exports = {
   name: 'qunit-bdd',
 
-  treeFor: function(name) {
-    this._requireBuildPackages();
-
-    if(name !== 'vendor') return;
-
+  treeForVendor: function(tree) {
     var treePath = path.join(__dirname, '..', 'lib')
 
-    if (fs.existsSync(treePath)) {
-      return this.pickFiles(this.treeGenerator(treePath), {
-        srcDir: '/',
-        files: ['*.js'],
-        destDir: '/qunit-bdd/lib'
-      });
-    }
+    var qunitBddTree =  this.pickFiles(this.treeGenerator(treePath), {
+      srcDir: '/',
+      files: ['*.js'],
+      destDir: '/qunit-bdd/lib'
+    });
+
+    return this.mergeTrees([tree, qunitBddTree].filter(Boolean));
   },
 
   included: function(app) {
-    this.app = app;
-    this.app.import('vendor/qunit-bdd/lib/qunit-bdd.js', {
+    app.import('vendor/qunit-bdd/lib/qunit-bdd.js', {
       type: 'test'
     });
   }
