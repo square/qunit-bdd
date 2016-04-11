@@ -29,5 +29,8 @@
     "qunitjs": "~1.12.0",
     "karma-qunit": "^0.1.1",
     "karma-phantomjs-launcher": "^0.1.4"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
