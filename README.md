@@ -283,7 +283,7 @@ request, we'll make sure you're in the list of people who have signed a CLA.
 
 ### Why?
 
-QUnit is a well-tested testing framework used projects such as jQuery and
+QUnit is a well-tested testing framework used by projects such as jQuery and
 Ember. It works very well for unit-style testing with fairly simple inputs and
 outputs. It is less well suited to acceptance or integration testing, where you
 often want to test slight variations of the same thing. The nested context of
