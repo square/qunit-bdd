@@ -23,7 +23,7 @@
     "url": "git@github.com:square/qunit-bdd.git"
   },
   "author": "Brian Donovan",
-  "license": "Apache 2",
+  "license": "Apache-2.0",
   "devDependencies": {
     "karma": "^0.12.6",
     "karma-phantomjs-launcher": "^1.0.4",
