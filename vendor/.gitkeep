@@ -1,0 +1,2 @@
+This is here because the ember-addon treeForVendor hook on pre ember-cli 0.1.3
+requires it to exist.
