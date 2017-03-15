@@ -291,8 +291,8 @@ the `develop` script:
 $ npm run develop
 ```
 
-Then go to http://localhost:8000/test in your browser (run with `PORT={port}`
-to override the default port).
+Then go to http://localhost:8000/ in your browser (run with `PORT={port}` to
+override the default port).
 
 #### Pull Requests
 
