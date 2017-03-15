@@ -36,6 +36,10 @@ $ git clone https://github.com/square/qunit-bdd.git
 $ cp qunit-bdd/lib/qunit-bdd.js my-project/vendor/qunit-bdd.js
 ```
 
+In addition to installing qunit-bdd, you must install QUnit itself. Currently,
+qunit-bdd is known to work with QUnit v1.23.1 and above in the v1.x line. It
+has not been tested with QUnit v2.x. Please report any bugs in the issues.
+
 ### Usage
 
 qunit-bdd has `describe` and `context`, just like Mocha and Jasmine. It also
@@ -154,6 +158,35 @@ describe('APIRequest', function() {
   it('works in another context', function() {
     // ... test-specific setup
     this.fireApiRequest();
+  });
+});
+```
+
+#### Async
+
+qunit-bdd supports `async` functions as `before`, `after`, or `it` callbacks.
+You may also return `Promise` objects from `before`, `after`, and `it` blocks as
+a means of writing async tests. We rely on QUnit's own mechanism for this
+functionality, which means we require at leastd QUnit v1.16. Here's a basic
+example:
+
+```js
+describe('delay', function() {
+  it('returns a promise that resolves after Nms', async function() {
+    await delay(10);
+    ok(true, 'promise resolved!');
+  });
+});
+```
+
+You can write this using explicit `Promise` syntax if you prefer:
+
+```js
+describe('delay', function() {
+  it('returns a promise that resolves after Nms', function() {
+    return delay(10).then(() => {
+      ok(true, 'promise resolved!');
+    });
   });
 });
 ```

@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'node_modules/es6-promise/dist/es6-promise.js',
       'test/preconfig.js',
       'lib/**/*.js',
       'test/vendor/sinon.js',

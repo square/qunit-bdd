@@ -597,20 +597,85 @@ describe('async', function() {
   });
 });
 
+describe('async with promises', function() {
+  var order;
+
+  before(function() {
+    order = [];
+  });
+
+  before(function() {
+    order.push(1);
+
+    return new Promise(function(resolve) {
+      setTimeout(function() {
+        order.push(2);
+        resolve();
+      });
+    });
+  });
+
+  before(function() {
+    order.push(3);
+
+    return new Promise(function(resolve) {
+      setTimeout(function() {
+        order.push(4);
+        resolve();
+      });
+    });
+  });
+
+  it('waits for promises returned by test callbacks', function() {
+    order.push(5);
+
+    return new Promise(function(resolve) {
+      setTimeout(function() {
+        order.push(6);
+        resolve();
+      });
+    });
+  });
+
+  after(function() {
+    order.push(7);
+
+    return new Promise(function(resolve) {
+      setTimeout(function() {
+        order.push(8);
+        resolve();
+      });
+    });
+  });
+
+  after(function() {
+    // ASSERTION HERE
+    expect(order).to.eql([1, 2, 3, 4, 5, 6, 7, 8]);
+  });
+});
+
 describe('exceptions', function() {
   var pushFailureStub;
 
+  helper('stubPushFailure', function() {
+    if (QUnit.config.current.pushFailure) {
+      pushFailureStub = sinon.stub(QUnit.config.current, 'pushFailure');
+    } else {
+      pushFailureStub = sinon.stub(QUnit, 'pushFailure');
+    }
+  });
+
   context('thrown in a `before`', function() {
     before(function() {
-      pushFailureStub = sinon.stub(QUnit, 'pushFailure');
-      throw new Error('uncaught exception in a `before`');
+      this.stubPushFailure();
+      throw new Error('deliberately uncaught exception in a `before`');
     });
 
     it('add a failure', function() {
       pushFailureStub.restore();
       expect(pushFailureStub.callCount).to.equal(1);
       expect(pushFailureStub.firstCall.args).to.eql([
-        'Exception while running qunit-bdd `before` hook: uncaught exception in a `before`',
+        'Exception while running qunit-bdd `before` hook: deliberately uncaught exception in a `before`',
         QUnit.config.current.stack
       ]);
     });
@@ -618,11 +683,11 @@ describe('exceptions', function() {
 
   context('thrown in an `it`', function() {
     before(function() {
-      pushFailureStub = sinon.stub(QUnit, 'pushFailure');
+      this.stubPushFailure();
     });
 
     it('adds a failure', function() {
-      throw new Error('uncaught exception in an `it`');
+      throw new Error('deliberately uncaught exception in an `it`');
     });
 
     after(function() {
@@ -630,7 +695,7 @@ describe('exceptions', function() {
       expect(pushFailureStub.callCount).to.equal(1);
       var args = pushFailureStub.firstCall.args[1];
       for (var i = 0, length = args.length; i < length; i++) {
-        if (typeof args[i] === 'string' && args[i].indexOf('uncaught exception in an `it`')) {
+        if (typeof args[i] === 'string' && args[i].indexOf('deliberately uncaught exception in an `it`')) {
           return;
         }
       }
