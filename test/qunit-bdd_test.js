@@ -107,8 +107,8 @@ describe('context', function() {
 });
 
 describe('fail', function() {
-  it('delegates to QUnit.ok', function() {
-    var okStub = sinon.stub(QUnit, 'ok');
+  it('delegates to QUnit.ok', function(assert) {
+    var okStub = sinon.stub(assert, 'ok');
     fail('oh no!');
     okStub.restore();
     expect(okStub.callCount).to.equal(1);
@@ -117,28 +117,29 @@ describe('fail', function() {
 });
 
 describe('expect', function() {
-  describe('QUnit.expect delegation', function() {
-    it('behaves like QUnit.expect if no accessors are called on the expect() object', function() {
+  describe('assert.expect delegation', function() {
+    it('behaves like QUnit.expect if no accessors are called on the expect() object', function(assert) {
       expect(3);
-      QUnit.equal(QUnit.config.current.expected, 3);
-      expect(1);
+      assert.equal(QUnit.config.current.expected, 3);
+      assert.ok(true);
+      assert.ok(true);
     });
 
-    it('does not override the expected assertion count if .to or .be is called', function() {
+    it('does not override the expected assertion count if .to or .be is called', function(assert) {
       /* jshint expr:true */
       expect(3).to.equal(3);
-      QUnit.equal(QUnit.config.current.expected, null);
+      assert.equal(QUnit.config.current.expected, null);
       expect(3).to;
-      QUnit.equal(QUnit.config.current.expected, null);
+      assert.equal(QUnit.config.current.expected, null);
       expect(3).be;
-      QUnit.equal(QUnit.config.current.expected, null);
+      assert.equal(QUnit.config.current.expected, null);
       /* jshint expr:false */
     });
 
-    it('does not override the expected assertion count if default assertions are called', function() {
-      QUnit.expect(2);
+    it('does not override the expected assertion count if default assertions are called', function(assert) {
+      assert.expect(2);
       expect(1).equal(1);
-      QUnit.equal(QUnit.config.current.expected, 2);
+      assert.equal(QUnit.config.current.expected, 2);
     });
   });
 
@@ -157,8 +158,8 @@ describe('expect', function() {
   });
 
   describe('.equal', function() {
-    it('delegates to QUnit.strictEqual', function() {
-      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+    it('delegates to QUnit.strictEqual', function(assert) {
+      var strictEqualStub = sinon.stub(assert, 'strictEqual');
       expect(1).to.equal(2);
       strictEqualStub.restore();
 
@@ -169,8 +170,8 @@ describe('expect', function() {
       expect(args[2]).to.equal(undefined);
     });
 
-    it('takes an optional message argument', function() {
-      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+    it('takes an optional message argument', function(assert) {
+      var strictEqualStub = sinon.stub(assert, 'strictEqual');
       expect(1 + 1).to.equal(2, 'math works');
       strictEqualStub.restore();
 
@@ -179,8 +180,8 @@ describe('expect', function() {
   });
 
   describe('.not.equal', function() {
-    it('delegates to QUnit.notStrictEqual', function() {
-      var notStrictEqualStub = sinon.stub(QUnit, 'notStrictEqual');
+    it('delegates to QUnit.notStrictEqual', function(assert) {
+      var notStrictEqualStub = sinon.stub(assert, 'notStrictEqual');
       expect(1).to.not.equal(2);
       notStrictEqualStub.restore();
 
@@ -191,8 +192,8 @@ describe('expect', function() {
       expect(args[2]).to.equal(undefined);
     });
 
-    it('takes an optional message argument', function() {
-      var notStrictEqualStub = sinon.stub(QUnit, 'notStrictEqual');
+    it('takes an optional message argument', function(assert) {
+      var notStrictEqualStub = sinon.stub(assert, 'notStrictEqual');
       expect(1 + 1).to.not.equal(2, 'math does not work');
       notStrictEqualStub.restore();
 
@@ -201,8 +202,8 @@ describe('expect', function() {
   });
 
   describe('.eql', function() {
-    it('delegates to QUnit.deepEqual', function() {
-      var deepEqualStub = sinon.stub(QUnit, 'deepEqual');
+    it('delegates to QUnit.deepEqual', function(assert) {
+      var deepEqualStub = sinon.stub(assert, 'deepEqual');
       var actual = {actual: true};
       var expected = {expected: true};
       expect(actual).to.eql(expected);
@@ -215,8 +216,8 @@ describe('expect', function() {
       expect(args[2]).to.equal(undefined);
     });
 
-    it('takes an optional message argument', function() {
-      var deepEqualStub = sinon.stub(QUnit, 'deepEqual');
+    it('takes an optional message argument', function(assert) {
+      var deepEqualStub = sinon.stub(assert, 'deepEqual');
       expect({a: 1}).to.eql({a: 1}, 'keys and values match');
       deepEqualStub.restore();
 
@@ -225,8 +226,8 @@ describe('expect', function() {
   });
 
   describe('.defined', function() {
-    it('delegates to QUnit.push by comparing to null and undefined', function() {
-      var pushStub = sinon.stub(QUnit, 'push');
+    it('delegates to QUnit.push by comparing to null and undefined', function(assert) {
+      var pushStub = sinon.stub(assert, 'pushResult');
       expect(99).to.be.defined();
       expect(null).to.be.defined();
       expect(undefined).to.be.defined();
@@ -248,8 +249,8 @@ describe('expect', function() {
       expect(args[1]).to.equal(undefined, 'actual matches');
     });
 
-    it('takes an optional message argument', function() {
-      var deepEqualStub = sinon.stub(QUnit, 'push');
+    it('takes an optional message argument', function(assert) {
+      var deepEqualStub = sinon.stub(assert, 'pushResult');
       expect(99).to.be.defined('99 luftballons');
       deepEqualStub.restore();
 
@@ -258,8 +259,8 @@ describe('expect', function() {
   });
 
   describe('.not.defined', function() {
-    it('delegates to QUnit.push by comparing to null and undefined', function() {
-      var pushStub = sinon.stub(QUnit, 'push');
+    it('delegates to QUnit.push by comparing to null and undefined', function(assert) {
+      var pushStub = sinon.stub(assert, 'pushResult');
       expect(99).to.not.be.defined();
       expect(null).to.not.be.defined();
       expect(undefined).to.not.be.defined();
@@ -281,8 +282,8 @@ describe('expect', function() {
       expect(args[1]).to.equal(undefined, 'actual matches');
     });
 
-    it('takes an optional message argument', function() {
-      var deepEqualStub = sinon.stub(QUnit, 'push');
+    it('takes an optional message argument', function(assert) {
+      var deepEqualStub = sinon.stub(assert, 'pushResult');
       expect(99).to.be.defined('99 luftballons');
       deepEqualStub.restore();
 
@@ -291,8 +292,8 @@ describe('expect', function() {
   });
 
   describe('.undefined', function() {
-    it('takes an optional message argument', function() {
-      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+    it('takes an optional message argument', function(assert) {
+      var strictEqualStub = sinon.stub(assert, 'strictEqual');
       expect(undefined).to.be['undefined']('tautology');
       strictEqualStub.restore();
 
@@ -301,8 +302,8 @@ describe('expect', function() {
   });
 
   describe('.null', function() {
-    it('takes an optional message argument', function() {
-      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+    it('takes an optional message argument', function(assert) {
+      var strictEqualStub = sinon.stub(assert, 'strictEqual');
       expect(null).to.be['null']('tautology');
       strictEqualStub.restore();
 
@@ -311,8 +312,8 @@ describe('expect', function() {
   });
 
   describe('.true', function() {
-    it('takes an optional message argument', function() {
-      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+    it('takes an optional message argument', function(assert) {
+      var strictEqualStub = sinon.stub(assert, 'strictEqual');
       expect(true).to.be['true']('tautology');
       strictEqualStub.restore();
 
@@ -321,8 +322,8 @@ describe('expect', function() {
   });
 
   describe('.false', function() {
-    it('takes an optional message argument', function() {
-      var strictEqualStub = sinon.stub(QUnit, 'strictEqual');
+    it('takes an optional message argument', function(assert) {
+      var strictEqualStub = sinon.stub(assert, 'strictEqual');
       expect(false).to.be['false']('tautology');
       strictEqualStub.restore();
 
@@ -331,31 +332,31 @@ describe('expect', function() {
   });
 
   describe('.configure', function() {
-    it('allows augmenting the default expect assertion', function() {
+    it('allows augmenting the default expect assertion', function(assert) {
       var assertion = expect();
-      expect(assertion.even).not.to.be.defined();
+      assert.equal(typeof assertion.even, 'undefined');
       expect.configure({
         even: function() {
-          QUnit.ok(this._actual % 2 === 0, 'expected ' + this._actual + ' to be even');
+          this.assert.ok(this._actual % 2 === 0, 'expected ' + this._actual + ' to be even');
         }
       });
       expect(2).to.be.even();
-      expect(typeof assertion.even).to.equal('function');
+      assert.equal(typeof assertion.even, 'function');
       expect.configure({ even: undefined });
-      expect(typeof assertion.even).to.equal('undefined');
+      assert.equal(typeof assertion.even, 'undefined');
     });
 
     if (Object.defineProperty) {
-      it('allows augmenting with getters, e.g. for filler words', function() {
+      it('allows augmenting with getters, e.g. for filler words', function(assert) {
         var assertion = expect();
-        expect(assertion.isisis).not.to.be.defined();
+        assert.equal(typeof assertion.isisis, 'undefined');
         var config = {};
         Object.defineProperty(config, 'isisis', {
           enumerable: true,
           get: function() { return this; }
         });
         expect.configure(config);
-        expect(assertion.isisis).to.equal(assertion);
+        assert.equal(assertion.isisis, assertion);
         expect.configure({ isisis: undefined });
       });
     }
@@ -379,8 +380,8 @@ describe('before', function() {
     expect(x).to.eql([1]);
   });
 
-  it('runs after any global befores', function() {
-    expect(valueFromGlobalBefore).to.be.defined();
+  it('runs after any global befores', function(assert) {
+    assert.ok(valueFromGlobalBefore !== null && valueFromGlobalBefore !== undefined);
   });
 
   context('with a nested context containing a `before`', function() {
@@ -522,10 +523,10 @@ describe('helper', function() {
       return num + this.inc;
     });
 
-    it('works', function() {
+    it('works', function(assert) {
       this.inc = 2;
       var val = this.someHelper(1);
-      QUnit.equal(val, 4);
+      assert.equal(val, 4);
     });
   });
 });
@@ -537,11 +538,11 @@ describe('async', function() {
     order.push(0);
   });
 
-  before(function() {
-    QUnit.stop();
+  before(function(assert) {
+    var done = assert.async();
     setTimeout(function() {
       order.push(1);
-      QUnit.start();
+      done();
     });
   });
 
@@ -555,21 +556,21 @@ describe('async', function() {
     });
 
     context('and yet another inner context', function() {
-      before(function() {
-        QUnit.stop();
+      before(function(assert) {
+        var done = assert.async();
         setTimeout(function() {
           order.push(4);
-          QUnit.start();
+          done();
         });
       });
 
-      it('waits for each `before` and `after` in each level to be done before moving to the next', function() {
+      it('waits for each `before` and `after` in each level to be done before moving to the next', function(assert) {
         // The assertion is in the final `after` below.
         order.push(5);
-        QUnit.stop();
+        var done = assert.async();
         setTimeout(function() {
           order.push(6);
-          QUnit.start();
+          done();
         });
       });
 
@@ -579,11 +580,11 @@ describe('async', function() {
     });
   });
 
-  after(function() {
-    QUnit.stop();
+  after(function(assert) {
+    var done = assert.async();
     setTimeout(function() {
       order.push(8);
-      QUnit.start();
+      done();
     });
   });
 
