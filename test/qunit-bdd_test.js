@@ -51,8 +51,18 @@ describe('describe', function() {
   describe('.only', function() {
     it('configures QUnit to filter by module', function() {
       var module = QUnit.config.module;
+      var current = QUnit.config.current;
 
-      describe.only('fake context with describe.only', function() {});
+      try {
+        // Allow `describe` inside an `it`, which is usually forbidden.
+        QUnit.config.current = null;
+
+        describe.only('fake context with describe.only', function() {});
+      } finally {
+        // Restore the current test before running assertions.
+        QUnit.config.current = current;
+      }
+
       expect(QUnit.config.module).to.equal('fake context with describe.only');
 
       QUnit.config.module = module;
@@ -86,11 +96,20 @@ describe('it.only', function() {
   it('configures QUnit to filter by module and test', function() {
     var module = QUnit.config.module;
     var filter = QUnit.config.filter;
+    var current = QUnit.config.current;
 
-    // This really does add a test that will be run.
-    describe('fake context with it.only', function() {
-      it.only('it.only test', function() { QUnit.expect(0); });
-    });
+    try {
+      // Allow `describe` inside an `it`, which is usually forbidden.
+      QUnit.config.current = null;
+
+      // This really does add a test that will be run.
+      describe('fake context with it.only', function() {
+        it.only('it.only test', function() { QUnit.expect(0); });
+      });
+    } finally {
+      // Restore the current test before running assertions.
+      QUnit.config.current = current;
+    }
 
     expect(QUnit.config.module).to.equal('fake context with it.only');
     expect(QUnit.config.filter).to.equal('it.only test');
@@ -100,9 +119,9 @@ describe('it.only', function() {
   });
 });
 
-describe('context', function() {
+context('context', function() {
   it('is an alias for #describe', function() {
-    expect(context).to.equal(describe);
+    expect(0);
   });
 });
 
@@ -727,4 +746,48 @@ describe('exceptions', function() {
       });
     });
   }
+});
+
+describe('improper DSL usage', function() {
+  it('disallows calling `describe` within a test', function(assert) {
+    assert.throws(
+      function() { describe('foo', function() {}) },
+      /cannot call `describe` within a running test/
+    );
+  });
+
+  it('disallows calling `context` within a test', function(assert) {
+    assert.throws(
+      function() { context('foo', function() {}) },
+      /cannot call `context` within a running test/
+    );
+  });
+
+  it('disallows calling `before` within a test', function(assert) {
+    assert.throws(
+      function() { before(function() {}) },
+      /cannot call `before` within a running test/
+    );
+  });
+
+  it('disallows calling `after` within a test', function(assert) {
+    assert.throws(
+      function() { after(function() {}) },
+      /cannot call `after` within a running test/
+    );
+  });
+
+  it('disallows calling `lazy` within a test', function(assert) {
+    assert.throws(
+      function() { lazy('foo', function() {}) },
+      /cannot call `lazy` within a running test/
+    );
+  });
+
+  it('disallows calling `helper` within a test', function(assert) {
+    assert.throws(
+      function() { helper('foo', function() {}) },
+      /cannot call `helper` within a running test/
+    );
+  });
 });
