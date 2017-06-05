@@ -13,7 +13,9 @@
   "scripts": {
     "lint": "eslint .",
     "pretest": "yarn run lint",
-    "test": "node_modules/karma/bin/karma --singleRun=true start karma.conf.js",
+    "test": "yarn run test-node && yarn run test-browser",
+    "test-node": "env TARGET=node ./script/ci",
+    "test-browser": "env TARGET=browser ./script/ci",
     "develop": "node_modules/karma/bin/karma start karma.conf.js"
   },
   "keywords": [
@@ -33,7 +35,8 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-qunit": "^1.2.1",
     "qunit-cli": "^0.2.0",
-    "qunitjs": "2.3.2"
+    "qunitjs": "2.3.2",
+    "sinon": "^2.3.2"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.com/"

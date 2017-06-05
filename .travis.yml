@@ -1,4 +1,9 @@
 sudo: false
 language: node_js
+script: "./script/ci"
 node_js:
   - "6"
+env:
+  matrix:
+    - TARGET=node
+    - TARGET=browser

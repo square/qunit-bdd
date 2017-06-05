@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -e
+
+runBrowser() {
+  node_modules/karma/bin/karma --singleRun=true start karma.conf.js
+}
+
+runNode() {
+  node_modules/.bin/qunit-cli --code test/node-setup.js test/*_test.js
+}
+
+case "${TARGET}" in
+  browser|BROWSER)
+    runBrowser
+    ;;
+
+  node|NODE)
+    runNode
+    ;;
+
+  *)
+    echo "No TARGET specified, defaulting to 'node'. Run with TARGET=node to suppress this." >&2
+    runNode
+    ;;
+esac
