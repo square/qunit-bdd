@@ -1,6 +1,7 @@
-/* jshint node:true, browser:true, undef:true */
 /* global describe, context, it, before, after, lazy, helper, expect, fail, ok */
 /* global QUnit, sinon */
+/* global window */
+/* eslint-env node, es6 */
 
 /**
  * To anyone attempting to debug these tests:
@@ -723,7 +724,7 @@ describe('exceptions', function() {
     });
   });
 
-  if (window.location.search.indexOf('run-failures=1') >= 0) {
+  if (typeof window !== 'undefined' && window.location.search.indexOf('run-failures=1') >= 0) {
     context('with notrycatch on', function() {
       var notrycatch = QUnit.config.notrycatch;
 
