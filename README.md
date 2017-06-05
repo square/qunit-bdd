@@ -24,12 +24,12 @@ describe('keys', function() {
 
 ### Installation
 
-```
+```bash
+# Install via Yarn.
+$ yarn add --dev qunit-bdd
+
 # Install via NPM.
 $ npm install [--save-dev] qunit-bdd
-
-# Install via Bower.
-$ bower install [-D] qunit-bdd
 
 # Install from Git.
 $ git clone https://github.com/square/qunit-bdd.git
@@ -272,13 +272,13 @@ Come chat on our [Google Group][google-group] page or use the
 First, install the development dependencies:
 
 ```
-$ npm install
+$ yarn
 ```
 
 Then, try running the tests:
 
 ```
-$ npm test
+$ yarn test
 ```
 
 #### Development
@@ -288,7 +288,7 @@ compiled and ready to test interactively in the browser. You can do that using
 the `develop` script:
 
 ```
-$ npm run develop
+$ yarn run develop
 ```
 
 Then go to http://localhost:8000/test in your browser (run with `PORT={port}`
