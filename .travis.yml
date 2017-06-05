@@ -1,6 +1,10 @@
 sudo: false
 language: node_js
 script: "./script/ci"
+cache:
+  yarn: true
+  directories:
+    - node_modules/
 node_js:
   - "6"
 env:
