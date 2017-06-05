@@ -11,6 +11,8 @@
     "LICENSE"
   ],
   "scripts": {
+    "lint": "eslint .",
+    "pretest": "yarn run lint",
     "test": "node_modules/karma/bin/karma --singleRun=true start karma.conf.js",
     "develop": "node_modules/karma/bin/karma start karma.conf.js"
   },
@@ -26,9 +28,11 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "es6-promise": "^4.1.0",
+    "eslint": "^3.19.0",
     "karma": "^0.12.6",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-qunit": "^1.2.1",
+    "qunit-cli": "^0.2.0",
     "qunitjs": "2.3.2"
   },
   "publishConfig": {
