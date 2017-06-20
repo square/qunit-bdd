@@ -3,15 +3,17 @@
   "version": "2.0.1",
   "description": "BDD-style testing for QUnit.",
   "main": "lib/qunit-bdd.js",
+  "types": "lib/qunit-bdd.d.ts",
   "directories": {
     "test": "test"
   },
   "files": [
     "lib/qunit-bdd.js",
+    "lib/qunit-bdd.d.ts",
     "LICENSE"
   ],
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . && tsc lib/qunit-bdd.d.ts",
     "pretest": "yarn run lint",
     "test": "yarn run test-node && yarn run test-browser",
     "test-node": "env TARGET=node ./script/ci",
@@ -29,6 +31,7 @@
   "author": "Brian Donovan",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/qunit": "^2.0.31",
     "es6-promise": "^4.1.0",
     "eslint": "^3.19.0",
     "karma": "^1.7.0",
@@ -36,7 +39,8 @@
     "karma-qunit": "^1.2.1",
     "qunit-cli": "^0.2.0",
     "qunitjs": "^2.3.3",
-    "sinon": "^2.3.2"
+    "sinon": "^2.3.2",
+    "typescript": "^2.3.4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.com/"
