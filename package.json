@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/qunit": "^2.0.31",
     "es6-promise": "^4.1.0",
-    "eslint": "^3.19.0",
+    "eslint": "^4.1.0",
     "karma": "^1.7.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-qunit": "^1.2.1",
