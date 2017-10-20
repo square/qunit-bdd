@@ -2,6 +2,8 @@
 
 BDD-style testing for QUnit.
 
+> **NOTE:** This library should be considered deprecated in favor of using [Mocha](https://mochajs.org/), which offers a similar BDD API. You're welcome to use it, but please do not expect a response to issues or pull requests.
+
 ```js
 describe('keys', function() {
   describe('.camelize', function() {
