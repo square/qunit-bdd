@@ -40,7 +40,7 @@
     "qunit-cli": "^0.2.0",
     "qunitjs": "^2.3.3",
     "sinon": "^4.1.1",
-    "typescript": "^2.3.4"
+    "typescript": "^3.7.2"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.com/"
