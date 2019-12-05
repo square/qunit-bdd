@@ -257,16 +257,16 @@ describe('expect', function() {
       var args;
 
       args = pushStub.firstCall.args;
-      expect(args[0]).to.equal(true, 'result matches');
-      expect(args[1]).to.equal(99, 'actual matches');
+      expect(args[0].result).to.equal(true, 'result matches');
+      expect(args[0].actual).to.equal(99, 'actual matches');
 
       args = pushStub.secondCall.args;
-      expect(args[0]).to.equal(false, 'result matches');
-      expect(args[1]).to.equal(null, 'actual matches');
+      expect(args[0].result).to.equal(false, 'result matches');
+      expect(args[0].actual).to.equal(null, 'actual matches');
 
       args = pushStub.thirdCall.args;
-      expect(args[0]).to.equal(false, 'result matches');
-      expect(args[1]).to.equal(undefined, 'actual matches');
+      expect(args[0].result).to.equal(false, 'result matches');
+      expect(args[0].actual).to.equal(undefined, 'actual matches');
     });
 
     it('takes an optional message argument', function(assert) {
@@ -274,7 +274,7 @@ describe('expect', function() {
       expect(99).to.be.defined('99 luftballons');
       deepEqualStub.restore();
 
-      expect(deepEqualStub.firstCall.args[3]).to.equal('99 luftballons');
+      expect(deepEqualStub.firstCall.args[0].message).to.equal('99 luftballons');
     });
   });
 
@@ -290,16 +290,16 @@ describe('expect', function() {
       var args;
 
       args = pushStub.firstCall.args;
-      expect(args[0]).to.equal(false, 'result matches');
-      expect(args[1]).to.equal(99, 'actual matches');
+      expect(args[0].result).to.equal(false, 'result matches');
+      expect(args[0].actual).to.equal(99, 'actual matches');
 
       args = pushStub.secondCall.args;
-      expect(args[0]).to.equal(true, 'result matches');
-      expect(args[1]).to.equal(null, 'actual matches');
+      expect(args[0].result).to.equal(true, 'result matches');
+      expect(args[0].actual).to.equal(null, 'actual matches');
 
       args = pushStub.thirdCall.args;
-      expect(args[0]).to.equal(true, 'result matches');
-      expect(args[1]).to.equal(undefined, 'actual matches');
+      expect(args[0].result).to.equal(true, 'result matches');
+      expect(args[0].actual).to.equal(undefined, 'actual matches');
     });
 
     it('takes an optional message argument', function(assert) {
@@ -307,7 +307,7 @@ describe('expect', function() {
       expect(99).to.be.defined('99 luftballons');
       deepEqualStub.restore();
 
-      expect(deepEqualStub.firstCall.args[3]).to.equal('99 luftballons');
+      expect(deepEqualStub.firstCall.args[0].message).to.equal('99 luftballons');
     });
   });
 
