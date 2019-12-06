@@ -17,6 +17,11 @@
 describe('describe', function() {
   var parentExecutionContext = this;
 
+  // Ensure node and browser tests are running against the expected QUnit Version.
+  it('uses QUnit 2.9', function() {
+    expect(QUnit.version).to.equal('2.9.3');
+  });
+
   it('runs its child tests in a QUnit module', function() {
     expect(3 + 4).to.equal(7);
   });
@@ -429,17 +434,17 @@ describe('after', function() {
   });
 
   context('with a nested context containing an `after`', function() {
-    it('runs after hooks from the outside in and top to bottom', function() {
+    it('runs after hooks from the inside out and bottom to top', function() {
       x = [];
       expected = [1, 2];
     });
 
     after(function() {
-      x.push(1);
+      x.push(2);
     });
 
     after(function() {
-      x.push(2);
+      x.push(1);
     });
   });
 
@@ -497,6 +502,11 @@ describe('lazy', function() {
       it('makes the parent context use the child-defined values', function() {
         expect(this.name).to.equal('Michael Bluth');
       });
+
+      after(function () {
+        // lazy teardown has not yet occurred when `after` hooks run
+        expect(this.name).to.equal('Michael Bluth');
+      })
     });
   });
 
@@ -600,21 +610,21 @@ describe('async', function() {
     });
   });
 
+  after(function () {
+    // ASSERTION HERE
+    expect(order).to.eql([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+
+  after(function () {
+    order.push(9);
+  });
+
   after(function(assert) {
     var done = assert.async();
     setTimeout(function() {
       order.push(8);
       done();
     });
-  });
-
-  after(function() {
-    order.push(9);
-  });
-
-  after(function() {
-    // ASSERTION HERE
-    expect(order).to.eql([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 });
 
@@ -658,6 +668,11 @@ describe('async with promises', function() {
     });
   });
 
+  after(function () {
+    // ASSERTION HERE
+    expect(order).to.eql([1, 2, 3, 4, 5, 6, 7, 8]);
+  });
+
   after(function() {
     order.push(7);
 
@@ -667,11 +682,6 @@ describe('async with promises', function() {
         resolve();
       });
     });
-  });
-
-  after(function() {
-    // ASSERTION HERE
-    expect(order).to.eql([1, 2, 3, 4, 5, 6, 7, 8]);
   });
 });
 
@@ -692,7 +702,7 @@ describe('exceptions', function() {
       throw new Error('deliberately uncaught exception in a `before`');
     });
 
-    it('add a failure', function() {
+    it('adds a failure', function() {
       pushFailureStub.restore();
       expect(pushFailureStub.callCount).to.equal(1);
       expect(pushFailureStub.firstCall.args).to.eql([

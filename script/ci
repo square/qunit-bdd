@@ -7,7 +7,7 @@ runBrowser() {
 }
 
 runNode() {
-  node_modules/.bin/qunit-cli --code test/node-setup.js test/*_test.js
+  node_modules/.bin/qunit --require './test/node-setup.js' test/*_test.js
 }
 
 case "${TARGET}" in
