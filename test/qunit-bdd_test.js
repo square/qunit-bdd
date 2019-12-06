@@ -17,6 +17,10 @@
 describe('describe', function() {
   var parentExecutionContext = this;
 
+  it('uses QUnit 2.9', function() {
+    expect(QUnit.version).to.equal('2.9.3');
+  });
+
   it('runs its child tests in a QUnit module', function() {
     expect(3 + 4).to.equal(7);
   });
@@ -429,7 +433,7 @@ describe('after', function() {
   });
 
   context('with a nested context containing an `after`', function() {
-    it('runs after hooks from the outside in and top to bottom', function() {
+    it('runs after hooks from the inside out and top to bottom', function() {
       x = [];
       expected = [1, 2];
     });
