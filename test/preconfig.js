@@ -9,6 +9,3 @@ QUnit.config.urlConfig.push({
 var QUNIT_BDD_OPTIONS = {
   randomize: QUnit.urlParams.randomize
 };
-
-// Polyfill using es6-promise.
-window.Promise = window.ES6Promise;
