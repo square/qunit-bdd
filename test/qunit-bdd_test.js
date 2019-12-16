@@ -696,7 +696,7 @@ describe('exceptions', function() {
       throw new Error('deliberately uncaught exception in a `before`');
     });
 
-    it('add a failure', function() {
+    it('adds a failure', function() {
       pushFailureStub.restore();
       expect(pushFailureStub.callCount).to.equal(1);
       expect(pushFailureStub.firstCall.args).to.eql([
