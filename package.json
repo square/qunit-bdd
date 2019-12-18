@@ -28,6 +28,7 @@
     "type": "git",
     "url": "git@github.com:square/qunit-bdd.git"
   },
+  "homepage": "https://github.com/square/qunit-bdd",
   "author": "Brian Donovan",
   "license": "Apache-2.0",
   "devDependencies": {
