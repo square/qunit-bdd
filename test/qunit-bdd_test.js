@@ -17,6 +17,7 @@
 describe('describe', function() {
   var parentExecutionContext = this;
 
+  // Ensure node and browser tests are running against the expected QUnit Version.
   it('uses QUnit 2.9', function() {
     expect(QUnit.version).to.equal('2.9.3');
   });
