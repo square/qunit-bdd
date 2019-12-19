@@ -38,9 +38,15 @@ $ git clone https://github.com/square/qunit-bdd.git
 $ cp qunit-bdd/lib/qunit-bdd.js my-project/vendor/qunit-bdd.js
 ```
 
-In addition to installing qunit-bdd, you must install QUnit itself. Currently,
-qunit-bdd is known to work with QUnit v1.23.1 and above in the v1.x line. It
-has not been tested with QUnit v2.x. Please report any bugs in the issues.
+### Requirements
+
+[QUnit](https://qunitjs.com/) must be installed alongside this package.
+
+| qunit-bdd | Supported QUnit Versions |
+| --- | --- |
+| v1.x | v1.x |
+| v2.x | v2.0 - v2.5.1 |
+| v3.x | v2.6+ |
 
 ### Usage
 
