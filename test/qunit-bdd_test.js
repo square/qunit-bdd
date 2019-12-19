@@ -502,6 +502,11 @@ describe('lazy', function() {
       it('makes the parent context use the child-defined values', function() {
         expect(this.name).to.equal('Michael Bluth');
       });
+
+      after(function () {
+        // lazy teardown has not yet occurred when `after` hooks run
+        expect(this.name).to.equal('Michael Bluth');
+      })
     });
   });
 
