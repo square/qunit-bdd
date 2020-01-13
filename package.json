@@ -39,7 +39,7 @@
     "karma-qunit": "^4.0.0",
     "puppeteer": "^2.0.0",
     "qunit": "^2.9.3",
-    "sinon": "^4.1.1",
+    "sinon": "^8.0.4",
     "typescript": "^2.3.4"
   },
   "publishConfig": {
