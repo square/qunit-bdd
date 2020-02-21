@@ -34,7 +34,7 @@ describe('describe', function() {
     });
 
     it('has a full description which contains all parent descriptions prepended', function() {
-      expect(executionContext.fullDescription()).to.equal('describe execution context');
+      expect(executionContext.fullDescription()).to.equal('describe > execution context');
     });
 
     it('has a reference to the parent execution context', function() {
