@@ -40,7 +40,7 @@
     "puppeteer": "^2.0.0",
     "qunit": "^2.9.3",
     "sinon": "^4.1.1",
-    "typescript": "^2.3.4"
+    "typescript": "^3.9.6"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.com/"
